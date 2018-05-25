@@ -1,0 +1,11 @@
+version: "2.1"
+services:
+
+  tests-base:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    environment:
+      - REDIS_URL=redis://redis-tests:6379/0
+    command: bash -c "yarn install && yarn lint && yarn test"
+

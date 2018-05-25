@@ -1,0 +1,26 @@
+stages:
+  - test
+  - build
+
+test:
+  image: 974556904237.dkr.ecr.eu-central-1.amazonaws.com/docker-compose:latest
+  stage: test
+  script:
+    - echo "---> Building test image and running tests"
+    - docker-compose --project-name=$CI_BUILD_ID build tests-pipeline
+    - docker-compose --project-name=$CI_BUILD_ID run --rm tests-pipeline
+  after_script:
+    - docker-compose --project-name=$CI_BUILD_ID down
+
+build:
+  image: node:9.11.1
+  stage: build
+  only:
+    - master
+  before_script:
+  - echo "//npm.thesolargeneration.com/:_authToken=\${NPM_TOKEN}" > ~/.npmrc
+  script:
+    - echo "Builing package..."
+    - yarn install && yarn build
+    - echo "Uploading to verdaccio..."
+    - npm publish --registry https://npm.thesolargeneration.com --always-auth

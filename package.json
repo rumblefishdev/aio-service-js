@@ -1,0 +1,30 @@
+{
+  "name": "aio-service-js",
+  "version": "0.1.0",
+  "main": "src/app.js",
+  "repository": "",
+  "author": "Krzysztof Drabek <krzysztof.drabek@rumblefish.pl>",
+  "license": "MIT",
+  "scripts": {
+    "start": "neutrino start",
+    "build": "neutrino build",
+    "test": "neutrino test",
+    "coverage": "neutrino test --coverage",
+    "test-watch": "neutrino test --watch",
+    "lint": "neutrino lint",
+    "lint-fix": "neutrino lint --fix"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "generic-pool": "^3.4.2",
+    "neutrino": "^8.2.3",
+    "redis": "^2.8.0",
+    "url-parse": "^1.4.0"
+  },
+  "devDependencies": {
+    "@neutrinojs/airbnb-base": "^8.2.3",
+    "@neutrinojs/jest": "^8.2.3",
+    "@neutrinojs/loader-merge": "^8.2.3",
+    "@neutrinojs/node": "^8.2.3"
+  }
+}
