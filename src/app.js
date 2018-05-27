@@ -1,18 +1,26 @@
-import Promise from 'bluebird';
-import createRedisPool from './redis';
-
-function sleep(sec) {
-  return new Promise(resolve => setTimeout(resolve, sec * 1000));
-}
+import Raven from 'raven';
+import createRedisPool, { drainRedisPool } from './redis';
+import { sleep, configureSentry } from './utils';
 
 
 async function queuesApp(handler, sleepTime = 1) {
+  let shouldStop = false;
   const pool = createRedisPool();
-  while (true) {
+  configureSentry();
+
+  const scheduleStop = async () => {
+    await drainRedisPool(pool);
+    shouldStop = true;
+  };
+
+  process.on('SIGTERM', async () => await scheduleStop);
+  process.on('SIGINT', async () => await scheduleStop);
+
+  while (!shouldStop) {
     try {
       await handler(pool);
     } catch (e) {
-      console.log(e);  //eslint-disable-line
+      Raven.captureException(e);
     } finally {
       await sleep(sleepTime);
     }

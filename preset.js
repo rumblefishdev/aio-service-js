@@ -5,6 +5,7 @@ module.exports = neutrino => {
     rules: {
       'comma-dangle': 'off',
       'no-await-in-loop': 'off',
+      'no-return-await': 'off',
       'function-paren-newline': 'off',
       'no-constant-condition': 'off'
     }

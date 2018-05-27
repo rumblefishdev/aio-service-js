@@ -2,7 +2,7 @@ import parse from 'url-parse';
 import redis from 'redis';
 import genericPool from 'generic-pool';
 import Promise from 'bluebird';
-import config from './config';
+import getConfig from './config';
 
 
 export const parseRedisUrl = (url) => {
@@ -28,6 +28,7 @@ export const parseRedisUrl = (url) => {
 const factory = {
   create: () => {
     Promise.promisifyAll(redis);
+    const config = getConfig();
     const options = parseRedisUrl(config.redisUrl);
     return redis.createClient(options);
   },

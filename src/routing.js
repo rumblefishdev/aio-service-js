@@ -1,3 +1,5 @@
+import Raven from 'raven';
+
 function defaultRoute(result) {
   throw new Error('Route not found for the given result: ', result);
 }
@@ -15,7 +17,7 @@ function createRouter(routes, keyResolver = resolveKey) {
     try {
       await route(pool, result.message);
     } catch (e) {
-      console.log(e.message); //eslint-disable-line
+      Raven.captureException(e);
     }
   };
 }

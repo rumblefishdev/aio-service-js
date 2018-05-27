@@ -13,7 +13,6 @@ import { createSubscriber, createDispatcher } from './communication';
 const TOPICS_TO_SUBSCRIBE = [
   'test.loopback',
   'test',
-  'tezd',
 ];
 
 const external = async (pool, appEvent) => {
@@ -23,6 +22,7 @@ const external = async (pool, appEvent) => {
       id: 'test_id',
     },
   };
+
   const dispatcher = createDispatcher(pool);
   await dispatcher(dbEvent, ['test.loopback']);
 };
@@ -39,7 +39,10 @@ const router = createRouter({
 const handler = async (pool, msgRouter = router) => {
   const subscriber = createSubscriber(pool);
   const events = await subscriber(TOPICS_TO_SUBSCRIBE);
-  Promise.all(events.map(e => msgRouter(pool, e)));
+  const messages = events.filter(m => m.message !== null);
+  if (messages.length > 0) {
+    Promise.all(messages.map(m => msgRouter(pool, m)));
+  }
 };
 
 
