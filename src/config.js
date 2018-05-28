@@ -9,6 +9,7 @@ const getConfig = (prefix = null) => {
   return {
     redisUrl: getFromEnv(process.env, 'REDIS_URL', queuesPrefix),
     sentryDSN: getFromEnv(process.env, 'SENTRY_DSN', queuesPrefix),
+    env: getFromEnv(process.env, 'ENV', queuesPrefix, 'staging'),
   };
 };
 

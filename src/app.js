@@ -1,24 +1,27 @@
 import Raven from 'raven';
-import createRedisPool, { drainRedisPool } from './redis';
+import createRedisPool from './redis';
 import { sleep, configureSentry } from './utils';
+import { createDispatcher, createSubscriber } from './communication';
 
+let shouldStop = false;
+
+export function stopQueues() {
+  shouldStop = true;
+}
 
 async function queuesApp(handler, sleepTime = 1) {
-  let shouldStop = false;
-  const pool = createRedisPool();
+  const pool = await createRedisPool();
   configureSentry();
 
-  const scheduleStop = async () => {
-    await drainRedisPool(pool);
-    shouldStop = true;
-  };
-
-  process.on('SIGTERM', async () => await scheduleStop);
-  process.on('SIGINT', async () => await scheduleStop);
+  process.on('SIGINT', stopQueues);
+  process.on('SIGTERM', stopQueues);
 
   while (!shouldStop) {
     try {
-      await handler(pool);
+      const dispatcher = createDispatcher(pool);
+      const subscriber = createSubscriber(pool);
+
+      await handler({ dispatcher, subscriber });
     } catch (e) {
       Raven.captureException(e);
     } finally {
@@ -26,6 +29,5 @@ async function queuesApp(handler, sleepTime = 1) {
     }
   }
 }
-
 
 export default queuesApp;

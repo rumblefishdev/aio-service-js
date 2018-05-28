@@ -10,7 +10,12 @@ export function sleep(sec) {
 
 export function configureSentry() {
   const config = getConfig();
+  const ravenConfig = {
+    captureUnhandledRejections: true,
+    environment: config.env
+  };
+
   if (config.sentryDSN) {
-    Raven.config(config.sentryDSN).install();
+    Raven.config(config.sentryDSN, ravenConfig).install();
   }
 }

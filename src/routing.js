@@ -11,11 +11,11 @@ export function resolveKey(result) {
 }
 
 function createRouter(routes, keyResolver = resolveKey) {
-  return async (pool, result) => {
+  return async (result, { dispatcher, subscriber }) => {
     const resolver = keyResolver(result);
     const route = routes[resolver] || defaultRoute;
     try {
-      await route(pool, result.message);
+      await route(result.message, { dispatcher, subscriber });
     } catch (e) {
       Raven.captureException(e);
     }
