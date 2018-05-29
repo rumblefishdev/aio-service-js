@@ -30,4 +30,4 @@ async function startQueues(handler, sleepTime = 1) {
   }
 }
 
-export default queuesApp;
+export default startQueues;
