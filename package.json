@@ -1,7 +1,7 @@
 {
   "name": "aio-service-js",
-  "version": "0.1.1",
-  "main": "src/index.js",
+  "version": "0.1.2",
+  "main": "build/index.js",
   "repository": "",
   "author": "Krzysztof Drabek <krzysztof.drabek@rumblefish.pl>",
   "license": "MIT",
