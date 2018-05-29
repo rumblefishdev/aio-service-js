@@ -5,12 +5,12 @@ import { createDispatcher, createSubscriber } from './communication';
 
 let shouldStop = false;
 
+export const pool = createRedisPool();
 export function stopQueues() {
   shouldStop = true;
 }
 
-async function queuesApp(handler, sleepTime = 1) {
-  const pool = await createRedisPool();
+async function startQueues(handler, sleepTime = 1) {
   configureSentry();
 
   process.on('SIGINT', stopQueues);

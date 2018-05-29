@@ -5,7 +5,6 @@ Sample usage:
 import Promise from 'bluebird';
 
 import createRouter from './routing';
-import queuesApp from './app';
 
 
 const TOPICS_TO_SUBSCRIBE = [
@@ -42,7 +41,7 @@ const handler = async ({ dispatcher, subscriber }, msgRouter = router) => {
 };
 
 
-queuesApp(handler);
+startQueues(handler);
 const app = express();
 app.get('/', (req, res) => res.send('Hello World!'));
 app.listen(3000, () => console.log('Example app listening on port 3000!'));
