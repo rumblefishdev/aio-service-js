@@ -1,0 +1,31 @@
+version: "2.1"
+
+services:
+
+  tests:
+    extends:
+      file: docker-compose.base.yml
+      service: tests-base
+    volumes:
+      - .:/app
+    links:
+      - redis-tests
+
+  tests-pipeline:
+    extends:
+      file: docker-compose.base.yml
+      service: tests-base
+    links:
+      - redis-tests
+
+  redis-tests:
+    mem_limit: 32m
+    image: redis:alpine
+
+  build:
+    extends:
+      file: docker-compose.base.yml
+      service: tests-base
+    volumes:
+      - .:/app
+    command: bash -c "yarn install && yarn build"
