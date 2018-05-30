@@ -1,4 +1,4 @@
-FROM node:9.11.1
+FROM node:10.2.1
 
 RUN apt-get -y update &&\
     apt-get -y upgrade &&\
