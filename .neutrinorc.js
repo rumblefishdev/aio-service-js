@@ -5,8 +5,9 @@ module.exports = {
         presets: [
           ["babel-preset-env", {
             targets:{
-              node: '9.11.1'
-            }
+              node: 'current'
+            },
+            exclude: ['transform-async-to-generator']
           }]
         ]
       }

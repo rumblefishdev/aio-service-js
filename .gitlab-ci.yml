@@ -13,7 +13,7 @@ test:
     - docker-compose --project-name=$CI_BUILD_ID down
 
 build:
-  image: node:9.11.1
+  image: node:10.2.1
   stage: build
   only:
     - master
