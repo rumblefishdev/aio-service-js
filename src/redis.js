@@ -13,7 +13,8 @@ export const parseRedisUrl = (url) => {
 
   const user = parsed.username || undefined;
   const password = parsed.password || undefined;
-  const db = parseInt(parsed.pathname, 10) || 0;
+  const dbNumber = parsed.pathname.split('/')[1];
+  const db = parseInt(dbNumber, 10) || 0;
 
   return {
     db,
