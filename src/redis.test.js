@@ -4,11 +4,11 @@ describe('parseRedisUrl', () => {
   const baseResult = {
     port: 6379,
     host: 'redis-tests',
-    db: 0,
+    db: 1,
   };
 
   it('parses the url', async () => {
-    const url = 'redis://redis-tests:6379/0';
+    const url = 'redis://redis-tests:6379/1';
     const result = parseRedisUrl(url);
 
     const expected = { ...baseResult, user: undefined, password: undefined };
@@ -16,7 +16,7 @@ describe('parseRedisUrl', () => {
   });
 
   it('parses the url with credentials', async () => {
-    const url = 'redis://user:pass@redis-tests:6379/0';
+    const url = 'redis://user:pass@redis-tests:6379/1';
     const result = parseRedisUrl(url);
 
     const expected = { ...baseResult, user: 'user', password: 'pass' };
